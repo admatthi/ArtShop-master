@@ -1,0 +1,6 @@
+framework module Pods_Bottles_BottlesUITests {
+  umbrella header "Pods-Bottles-BottlesUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

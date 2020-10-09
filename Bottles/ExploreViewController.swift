@@ -15,6 +15,8 @@ import Kingfisher
 import Photos
 import FBSDKCoreKit
 import MBProgressHUD
+import FirebaseFirestore
+
 
 var didpurchase = Bool()
 
@@ -43,6 +45,7 @@ var selectedauthorimage = String()
 var uid = String()
 var ref : DatabaseReference?
 var refer = String()
+var db : Firestore!
 
 class ExploreViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -69,6 +72,9 @@ class ExploreViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        db = Firestore.firestore()
         
         ref = Database.database().reference()
         
@@ -158,46 +164,44 @@ class ExploreViewController: UIViewController, UICollectionViewDelegate, UIColle
         var functioncounter = 0
         
         
-        
-        ref?.child("Deals").child(selectedgenre).observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            var value = snapshot.value as? NSDictionary
-            
-            print (value)
-            
-            if let snapDict = snapshot.value as? [String: AnyObject] {
-                
-                let genre = Genre(withJSON: snapDict)
-                
-                if let newbooks = genre.books {
+        db.collection("latest_deals")
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    let para:NSMutableDictionary = NSMutableDictionary()
                     
-                    self.books = newbooks
-                    
-                    self.books = self.books.sorted(by: { $0.popularity ?? 0  > $1.popularity ?? 0 })
-                    
+                    for document in querySnapshot!.documents {
+                        let data = document.data()
+                        let docId = document.documentID
+                        let prod: NSMutableDictionary = NSMutableDictionary()
+                        for (key, value) in data {
+                            prod.setValue(value, forKey: "\(key)")
+                        }
+                         
+                        para.setObject(prod, forKey: docId as NSCopying)
+                        
+                    }
+                    if para.count > 0 {
+                      
+                        if let snapDict = para as? [String : Any] {
+                            
+                            let genre = Genre(withJSON: snapDict)
+                            
+                            if let newbooks = genre.books {
+
+                                self.books = newbooks
+
+                                self.books = self.books.sorted(by: { $0.popularity ?? 0  > $1.popularity ?? 0 })
+
+                            }
+                        }
                 }
-                
-                //                                for each in snapDict {
-                //
-                //                                    functioncounter += 1
-                //
-                //                                    let ids = each.key
-                //
-                //                                    seemoreids.append(ids)
-                //
-                //
-                //                                    if functioncounter == snapDict.count {
-                //
-                //                                        self.updateaudiostructure()
-                //
-                //                                    }
-                //                                }
-                
+
+        }
+        
             }
-            
-        })
     }
-    
     var genreindex = Int()
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -233,7 +237,7 @@ class ExploreViewController: UIViewController, UICollectionViewDelegate, UIColle
             
             genreindex = indexPath.row
             
-            queryforids()
+            //queryforids()
             
             logCategoryPressed(referrer: referrer)
             
@@ -677,7 +681,7 @@ class ExploreViewController: UIViewController, UICollectionViewDelegate, UIColle
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Discount", for: indexPath) as! DiscountCollectionViewCell
             
             
-            let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "$\((book?.originalprice)!)")
+            let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\((book?.originalprice)!)")
             
             attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
             
@@ -685,14 +689,14 @@ class ExploreViewController: UIViewController, UICollectionViewDelegate, UIColle
             
             if let newprice = book?.newprice {
                 
-                cell.pricelabel.text = "$\(newprice)"
+                cell.pricelabel.text = "\(newprice)"
                 
             }
             
-            let mydate = String((book?.date?.prefix(6))!)
+            //let mydate = String((book?.date?.prefix(6))!)
             
             cell.brandname.text = book?.brand
-            cell.datelabel.text = mydate
+            //cell.datelabel.text = mydate
             cell.titlelabel.text = book?.name
             
             

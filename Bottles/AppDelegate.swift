@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //              AppsFlyerTracker.shared().delegate = self
 //              AppsFlyerTracker.shared().isDebug = true
         
-      FirebaseApp.configure()
+            FirebaseApp.configure()
                
                AppEvents.activateApp()
 

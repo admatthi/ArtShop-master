@@ -49,8 +49,8 @@ struct Book {
     let date: String?
     let intdate: Int?
     let title: String?
-    let originalprice: Int?
-    let newprice: Int?
+    let originalprice: String?
+    let newprice: String?
     let brand: String?
 
 
@@ -58,10 +58,10 @@ struct Book {
 
     init(withID id: String, json: [String: Any]) {
         self.bookID = id
-        self.originalprice = json["orignal_price"] as? Int
+        self.originalprice = json["orignal_price"] as? String
         self.brand = json["brand"] as? String
 
-        self.newprice = json["new_price"] as? Int
+        self.newprice = json["new_price"] as? String
         self.author = json["Author"] as? String
         self.description = json["Description"] as? String
         self.imageURL = json["image"] as? String

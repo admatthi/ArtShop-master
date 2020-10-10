@@ -178,30 +178,43 @@ class ExploreViewController: UIViewController, UICollectionViewDelegate, UIColle
                         for (key, value) in data {
                             prod.setValue(value, forKey: "\(key)")
                         }
-                         
+                        
                         para.setObject(prod, forKey: docId as NSCopying)
                         
                     }
                     if para.count > 0 {
-                      
+                        
                         if let snapDict = para as? [String : Any] {
                             
                             let genre = Genre(withJSON: snapDict)
                             
                             if let newbooks = genre.books {
-
+                                
                                 self.books = newbooks
-
+                                
                                 self.books = self.books.sorted(by: { $0.popularity ?? 0  > $1.popularity ?? 0 })
-
+                                
                             }
                         }
+                    }
+                    
                 }
-
-        }
-        
+                
             }
     }
+    
+    func deleteProduct(id: String){
+        db.collection("latest_deals").document(id).delete() { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+                genreCollectionView.reloadData()
+            
+            }
+        }
+    }
+    
     var genreindex = Int()
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -238,8 +251,11 @@ class ExploreViewController: UIViewController, UICollectionViewDelegate, UIColle
             genreindex = indexPath.row
             
             //queryforids()
+            let book = self.book(atIndexPath: indexPath)
             
-            logCategoryPressed(referrer: referrer)
+            let selectedbookid = book?.bookID ?? ""
+            
+            logCategoryPressed(referrer: referrer, id: selectedbookid)
             
             titleCollectionView.scrollToItem(at: indexPath, at: .top, animated: false)
             //            addstaticbooks()
@@ -350,7 +366,14 @@ class ExploreViewController: UIViewController, UICollectionViewDelegate, UIColle
             
             MBProgressHUD.hide(for: view, animated: true)
             
-            logCategoryPressed(referrer: referrer)
+            let book = self.book(atIndexPath: indexPath)
+            
+            let selectedbookid = book?.bookID ?? ""
+            
+            logCategoryPressed(referrer: referrer, id: selectedbookid)
+            
+            logCategoryPressed(referrer: referrer, id: selectedbookid)
+            
             genreCollectionView.alpha = 1
             
             if selectedindex == 0 {
@@ -746,10 +769,19 @@ class ExploreViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     func logUsePressed(referrer : String) {
         AppEvents.logEvent(AppEvents.Name(rawValue: "use pressed"), parameters: ["referrer" : referrer, "bookID" : selectedbookid, "genre" : selectedgenre])
+        
+        print("LONG USER PRESSED")
     }
     
-    func logCategoryPressed(referrer : String) {
+    func logCategoryPressed(referrer : String, id: String) {
         AppEvents.logEvent(AppEvents.Name(rawValue: "category pressed"), parameters: ["referrer" : referrer, "genre" : selectedgenre])
+        let alert = UIAlertController.init(title: "Delete item", message: "Sure to delete this item", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (alertAction) in
+            self.deleteProduct(id: id)
+        }))
+        alert.addAction(UIAlertAction(title: "No", style: .destructive, handler: nil))
+        alert.present(self, animated: true, completion: nil)
+        print("LONG CATEGORY PRESSED")
     }
     
     func logFilterViewed(referrer : String) {

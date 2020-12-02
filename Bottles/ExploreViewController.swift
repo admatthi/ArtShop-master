@@ -15,8 +15,10 @@ import Kingfisher
 import Photos
 import FBSDKCoreKit
 import MBProgressHUD
+import FirebaseFirestore
 
 var didpurchase = Bool()
+var db : Firestore!
 
 let lightg = UIColor(red: 0.90, green: 0.91, blue: 0.91, alpha: 1.00)
 
@@ -71,7 +73,8 @@ class ExploreViewController: UIViewController, UICollectionViewDelegate, UIColle
         super.viewDidLoad()
         
         ref = Database.database().reference()
-        
+        db = Firestore.firestore()
+
         genres.removeAll()
         genres.append("Latest")
         genres.append("Shirts")
@@ -158,44 +161,45 @@ class ExploreViewController: UIViewController, UICollectionViewDelegate, UIColle
         var functioncounter = 0
         
         
-        
-        ref?.child("Deals").child(selectedgenre).observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            var value = snapshot.value as? NSDictionary
-            
-            print (value)
-            
-            if let snapDict = snapshot.value as? [String: AnyObject] {
-                
-                let genre = Genre(withJSON: snapDict)
-                
-                if let newbooks = genre.books {
+        db.collection("latest_deals").whereField("brand", isGreaterThan: " ").limit(to: 100)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    let para:NSMutableDictionary = NSMutableDictionary()
                     
-                    self.books = newbooks
-                    
-                    self.books = self.books.sorted(by: { $0.popularity ?? 0  > $1.popularity ?? 0 })
+                    for document in querySnapshot!.documents {
+                        let data = document.data()
+                        let docId = document.documentID
+                        let prod: NSMutableDictionary = NSMutableDictionary()
+                        for (key, value) in data {
+                            prod.setValue(value, forKey: "\(key)")
+                        }
+                        
+                        para.setObject(prod, forKey: docId as NSCopying)
+                        
+                    }
+                    if para.count > 0 {
+                        
+                        if let snapDict = para as? [String : Any] {
+                            
+                            let genre = Genre(withJSON: snapDict)
+                            
+                            if let newbooks = genre.books {
+                                
+                                self.books = newbooks
+                                
+                                //
+                                //
+                                self.books = self.books.sorted(by: { $0.created?.dateValue().timeAgoSinceDate() ?? "0" < $1.created?.dateValue().timeAgoSinceDate() ?? "1" })
+                                
+                            }
+                        }
+                    }
                     
                 }
                 
-                //                                for each in snapDict {
-                //
-                //                                    functioncounter += 1
-                //
-                //                                    let ids = each.key
-                //
-                //                                    seemoreids.append(ids)
-                //
-                //
-                //                                    if functioncounter == snapDict.count {
-                //
-                //                                        self.updateaudiostructure()
-                //
-                //                                    }
-                //                                }
-                
-            }
-            
-        })
+        }
     }
     
     var genreindex = Int()
@@ -250,7 +254,7 @@ class ExploreViewController: UIViewController, UICollectionViewDelegate, UIColle
             //print("CELL ITEM===>", book ?? [])
             
             
-            if didpurchase {
+//            if didpurchase {
                 
                 
                 bookindex = indexPath.row
@@ -275,38 +279,38 @@ class ExploreViewController: UIViewController, UICollectionViewDelegate, UIColle
                 }
                 
                 
-            } else {
-                
-                if indexPath.row < 2 {
-                    
-                    bookindex = indexPath.row
-                    selectedauthor = book?.author ?? ""
-                    selectedtitle = book?.title ?? ""
-                    selectedbookid = book?.bookID ?? ""
-                    selectedgenre = book?.genre ?? ""
-                    selectedurl = book?.amazonURL as! String
-                    
-                    
-                    logUsePressed(referrer: referrer)
-                    
-                    
-                    guard let url = URL(string: selectedurl) else {
-                        return //be safe
-                    }
-                    
-                    if #available(iOS 10.0, *) {
-                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                    } else {
-                        UIApplication.shared.openURL(url)
-                    }
-                    
-                } else {
-                    
-                    self.performSegue(withIdentifier: "HomeToSales", sender: self)
-                    
-                }
-                
-            }
+//            } else {
+//
+//                if indexPath.row < 2 {
+//
+//                    bookindex = indexPath.row
+//                    selectedauthor = book?.author ?? ""
+//                    selectedtitle = book?.title ?? ""
+//                    selectedbookid = book?.bookID ?? ""
+//                    selectedgenre = book?.genre ?? ""
+//                    selectedurl = book?.amazonURL as! String
+//
+//
+//                    logUsePressed(referrer: referrer)
+//
+//
+//                    guard let url = URL(string: selectedurl) else {
+//                        return //be safe
+//                    }
+//
+//                    if #available(iOS 10.0, *) {
+//                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//                    } else {
+//                        UIApplication.shared.openURL(url)
+//                    }
+//
+//                } else {
+//
+//                    self.performSegue(withIdentifier: "HomeToSales", sender: self)
+//
+//                }
+//
+//            }
             
             
         }
@@ -672,70 +676,121 @@ class ExploreViewController: UIViewController, UICollectionViewDelegate, UIColle
             
         case self.titleCollectionView:
             
-            let book = self.book(atIndexPath: indexPath)
-            
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Discount", for: indexPath) as! DiscountCollectionViewCell
-            
-            
-            let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "$\((book?.originalprice)!)")
-            
-            attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
-            
-            cell.strikethrough.attributedText = attributeString
-            
-            if let newprice = book?.newprice {
-                
-                cell.pricelabel.text = "$\(newprice)"
-                
+              let book = self.book(atIndexPath: indexPath)
+                     
+                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Discount", for: indexPath) as! DiscountCollectionViewCell
+                     
+                     print(book?.brand)
+                     
+                     if book?.name == "" || book?.brand == " " || book?.brand == "" || book?.brand == nil || book?.brand == "Limited-Time Sale" || book?.brand == "New Markdown" || book?.brand == "Price Matched"  {
+                         //
+                         //                books.remove(at: indexPath.row)
+                         
+                         //                cell.alpha = 0
+                         
+                         
+                         cell.removeFromSuperview()
+                         
+                         
+                         //
+                         //
+                         return cell
+                         
+                         //
+                     } else {
+                         
+                         
+                         let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "$\((book?.originalprice)!)")
+                         
+                         attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
+                         
+                         cell.strikethrough.attributedText = attributeString
+                         
+                         if let newprice = book?.newprice {
+                             
+                             cell.pricelabel.text = "$\(newprice)"
+                             
+                         }
+                         
+                         //let mydate = String((book?.date?.prefix(6))!)
+                         
+                         cell.brandname.text = book?.brand?.lowercased()
+                         cell.brandname.text = book?.brand?.capitalized
+                         cell.pricelabel.alpha = 1
+                         cell.strikethrough.alpha = 1
+                         
+                         let datemy = book?.created
+                         
+                         let date2 = datemy!.dateValue()
+                         
+                         
+                         
+                         //                let timestamp = datemy
+                         
+                         //                let converted = NSDate(timeIntervalSince1970: datemy / 1000)
+                         ////
+                         ////
+                         //                let dateFormatter = DateFormatter()
+                         //                dateFormatter.timeZone = NSTimeZone.local
+                         //                dateFormatter.dateFormat = "hh:mm a"
+                         //                let time = dateFormatter.string(from: converted as Date)
+                         //
+                         //            print("above is \(date2.timeAgoSinceDate())")
+                         
+                         //
+                         cell.datelabel.text = date2.timeAgoSinceDate()
+                         cell.titlelabel.text = book?.name?.capitalized
+                         
+                         cell.imagelabel.alpha = 1
+                         cell.datelabel.alpha = 1
+                         cell.titlelabel.alpha = 1
+                         cell.brandname.alpha = 1
+                         
+                         logFilterViewed(referrer: referrer)
+                         
+                         cell.layer.borderWidth = 1
+                         cell.layer.borderColor = lightg.cgColor
+                         
+                         
+                         if let imageURLString = book?.imageURL, let imageUrl = URL(string: imageURLString) {
+                             
+                             MBProgressHUD.hide(for: view, animated: true)
+                             
+                             cell.imagelabel.kf.setImage(with: imageUrl)
+                             
+                             //                if didpurchase {
+                             //
+                             //                    cell.blurimage.alpha = 0
+                             //                    cell.titlelabel.alpha = 1
+                             //
+                             //                } else {
+                             //
+                             //                    if indexPath.row > 1 {
+                             //
+                             //
+                             //                        cell.titlelabel.alpha = 0
+                             //                        cell.blurimage.alpha = 1
+                             //
+                             //                    } else {
+                             
+                             
+                             cell.titlelabel.alpha = 1
+                             cell.blurimage.alpha = 0
+                             //                    }
+                             //                    //
+                             //                }
+                             
+                         }
+                         
+                         return cell
+                        
             }
-            
-            let mydate = String((book?.date?.prefix(6))!)
-            
-            cell.brandname.text = book?.brand
-            cell.datelabel.text = mydate
-            cell.titlelabel.text = book?.name
-            
-            
-            logFilterViewed(referrer: referrer)
-            
-            cell.layer.borderWidth = 1
-            cell.layer.borderColor = lightg.cgColor
-            
-            
-            if let imageURLString = book?.imageURL, let imageUrl = URL(string: imageURLString) {
-                
-                cell.imagelabel.kf.setImage(with: imageUrl)
-                
-                if didpurchase {
-                    
-                    cell.blurimage.alpha = 0
-                    cell.titlelabel.alpha = 1
-                    
-                } else {
-                    
-                    if indexPath.row > 1 {
-                    
-             
-                        cell.titlelabel.alpha = 0
-                        cell.blurimage.alpha = 1
-                        
-                    } else {
-                        
-                        
-                        cell.titlelabel.alpha = 1
-                        cell.blurimage.alpha = 0
-                    }
-                    //
-                }
-                
-            }
-            
-            return cell
             
         default:
             
             return UICollectionViewCell()  
         }
+            
         
     }
     
@@ -779,3 +834,49 @@ extension ExploreViewController {
               return self.book(atIndex: indexPath.row)
           }
       }
+
+
+extension Date {
+
+    func timeAgoSinceDate() -> String {
+
+        // From Time
+        let fromDate = self
+
+        // To Time
+        let toDate = Date()
+
+        // Estimation
+        // Year
+        if let interval = Calendar.current.dateComponents([.year], from: fromDate, to: toDate).year, interval > 0  {
+
+            return interval == 1 ? "\(interval)" + "" + "y" : "\(interval)" + "" + "y"
+        }
+
+        // Month
+        if let interval = Calendar.current.dateComponents([.month], from: fromDate, to: toDate).month, interval > 0  {
+
+            return interval == 1 ? "\(interval)" + "" + "mo" : "\(interval)" + "" + "mo"
+        }
+
+        // Day
+        if let interval = Calendar.current.dateComponents([.day], from: fromDate, to: toDate).day, interval > 0  {
+
+            return interval == 1 ? "\(interval)" + "" + "d" : "\(interval)" + "" + "d"
+        }
+
+//         Hours
+        if let interval = Calendar.current.dateComponents([.hour], from: fromDate, to: toDate).hour, interval > 0 {
+
+            return interval == 1 ? "\(interval)" + "" + "h ago" : "\(interval)" + "" + "h ago"
+        }
+
+        // Minute
+        if let interval = Calendar.current.dateComponents([.minute], from: fromDate, to: toDate).minute, interval > 0 {
+
+            return interval == 1 ? "\(interval)" + "" + "m ago" : "\(interval)" + "" + "m ago"
+        }
+
+        return "5s"
+    }
+}

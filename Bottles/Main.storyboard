@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="mYv-Lf-up9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bzV-iR-qYY">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -167,6 +167,40 @@
             </objects>
             <point key="canvasLocation" x="-740.57971014492762" y="436.60714285714283"/>
         </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="1Li-Xv-VgG">
+            <objects>
+                <tabBarController id="bzV-iR-qYY" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="xRb-Cw-Gu2">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="mYv-Lf-up9" kind="relationship" relationship="viewControllers" id="RUg-8l-CEa"/>
+                        <segue destination="DuT-ym-LMn" kind="relationship" relationship="viewControllers" id="bQm-zu-xAs"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fKL-pe-imH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-5536" y="-667"/>
+        </scene>
+        <!--Submit-->
+        <scene sceneID="cS1-EY-LJw">
+            <objects>
+                <viewController id="DuT-ym-LMn" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UfX-AO-2Qa">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="McA-qd-V69"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Submit" id="ELf-am-iuR"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dn0-2e-EIi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4687" y="-273"/>
+        </scene>
         <!--Explore-->
         <scene sceneID="qYY-ph-zxx">
             <objects>
@@ -242,7 +276,7 @@
                                 </connections>
                             </collectionView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Hij-yj-qEg">
-                                <rect key="frame" x="0.0" y="155" width="414" height="741"/>
+                                <rect key="frame" x="0.0" y="155" width="414" height="692"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="aCT-TF-24i">
                                     <size key="itemSize" width="199" height="353"/>
@@ -385,7 +419,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kYu-DB-fcP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2930.434782608696" y="-852.45535714285711"/>
+            <point key="canvasLocation" x="-4688" y="-966"/>
         </scene>
         <!--Detail Art View Controller-->
         <scene sceneID="WV0-HH-gaL">

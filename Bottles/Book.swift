@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseFirestore
 
 struct Book {
     
@@ -53,6 +55,7 @@ struct Book {
     let newprice: Int?
     let brand: String?
 
+    let created: Timestamp?
 
 
 
@@ -60,6 +63,7 @@ struct Book {
         self.bookID = id
         self.originalprice = json["orignal_price"] as? Int
         self.brand = json["brand"] as? String
+        self.created = json["created_at"] as? Timestamp
 
         self.newprice = json["new_price"] as? Int
         self.author = json["Author"] as? String

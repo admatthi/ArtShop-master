@@ -17,7 +17,7 @@ pod 'FBSDKCoreKit'
 pod 'Firebase/Messaging'
 pod 'AppsFlyerFramework'
 pod 'MBProgressHUD'
-
+pod 'IQKeyboardManagerSwift'
   # Pods for Bottles
 
   target 'BottlesTests' do

@@ -14,7 +14,7 @@ import FirebaseStorage
 import Purchases
 import FBSDKCoreKit
 import AppsFlyerLib
-
+import IQKeyboardManagerSwift
 var slimeybool = Bool()
 
 
@@ -26,7 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.keyboardDistanceFromTextField = 0
+        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
 //        AppsFlyerTracker.shared().appsFlyerDevKey = "GSfLvX3FDxH58hR3yDZzZe"
 //              AppsFlyerTracker.shared().appleAppID = "1520062033"
 //              AppsFlyerTracker.shared().delegate = self

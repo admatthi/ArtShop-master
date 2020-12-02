@@ -359,6 +359,7 @@ PODS:
     - gRPC-Core/Interface (= 1.28.2)
   - gRPC-Core/Interface (1.28.2)
   - GTMSessionFetcher/Core (1.4.0)
+  - IQKeyboardManagerSwift (6.5.6)
   - Kingfisher (5.15.5):
     - Kingfisher/Core (= 5.15.5)
   - Kingfisher/Core (5.15.5)
@@ -384,6 +385,7 @@ DEPENDENCIES:
   - Firebase/Firestore
   - Firebase/Messaging
   - Firebase/Storage
+  - IQKeyboardManagerSwift
   - Kingfisher
   - MBProgressHUD
   - Purchases
@@ -411,6 +413,7 @@ SPEC REPOS:
     - "gRPC-C++"
     - gRPC-Core
     - GTMSessionFetcher
+    - IQKeyboardManagerSwift
     - Kingfisher
     - leveldb-library
     - MBProgressHUD
@@ -442,6 +445,7 @@ SPEC CHECKSUMS:
   "gRPC-C++": 13d8ccef97d5c3c441b7e3c529ef28ebee86fad2
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
+  IQKeyboardManagerSwift: c7df9d2deb356c04522f5c4b7b6e4ce4d8ed94fe
   Kingfisher: e3ec347a5ab8817b7585ef46923a2d2b9a7d8fbe
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
@@ -451,6 +455,6 @@ SPEC CHECKSUMS:
   Purchases: ae790bb695c4d4f1c13f952067d2d2c3f0d0ca5e
   PurchasesCoreSwift: 53956256a1ff84de8f0f212ea4b9b46a53a212dc
 
-PODFILE CHECKSUM: 1f26f504dac750c915e501b263351de577ed5c95
+PODFILE CHECKSUM: 10e40a5b9d868646b728cd1f0931b006e20b53b3
 
 COCOAPODS: 1.9.3

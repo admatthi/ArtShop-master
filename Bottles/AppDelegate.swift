@@ -51,10 +51,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
               AppsFlyerLib.shared().isDebug = true
                
                
-               self.window = UIWindow(frame: UIScreen.main.bounds)
-               self.window?.rootViewController = tabBarBuyer
-               
-               self.window?.makeKeyAndVisible()
+//               self.window = UIWindow(frame: UIScreen.main.bounds)
+//               self.window?.rootViewController = tabBarBuyer
+//               
+//               self.window?.makeKeyAndVisible()
                
                let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
                  

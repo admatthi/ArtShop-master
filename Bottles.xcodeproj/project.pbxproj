@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		021BBB68EA0F5AF522A67254 /* Pods_Bottles.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02468BAEB8F2BEC9A94ED7DB /* Pods_Bottles.framework */; };
+		4E508AC02578070C009F399C /* PostDealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E508ABF2578070C009F399C /* PostDealViewController.swift */; };
+		4E508AC525780732009F399C /* PostDealTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E508AC425780732009F399C /* PostDealTableViewController.swift */; };
 		6668DE2B10C4084CA53CE75B /* Pods_BottlesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D19F6AAD1BE3C0A383A2B585 /* Pods_BottlesTests.framework */; };
 		680C8376FF998102D8212232 /* Pods_Bottles_BottlesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AC321C60D251E80FB6D72FD /* Pods_Bottles_BottlesUITests.framework */; };
 		9D0A44E424A8F9C400E3FB94 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0A44E324A8F9C400E3FB94 /* CategoryCollectionViewCell.swift */; };
@@ -53,6 +55,8 @@
 /* Begin PBXFileReference section */
 		02468BAEB8F2BEC9A94ED7DB /* Pods_Bottles.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bottles.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AC321C60D251E80FB6D72FD /* Pods_Bottles_BottlesUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bottles_BottlesUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E508ABF2578070C009F399C /* PostDealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDealViewController.swift; sourceTree = "<group>"; };
+		4E508AC425780732009F399C /* PostDealTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDealTableViewController.swift; sourceTree = "<group>"; };
 		52D9D6EE7435E5A944BAB19F /* Pods-Bottles.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bottles.release.xcconfig"; path = "Target Support Files/Pods-Bottles/Pods-Bottles.release.xcconfig"; sourceTree = "<group>"; };
 		5FD199BF22A7B822DDCA2AE2 /* Pods-Bottles.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bottles.debug.xcconfig"; path = "Target Support Files/Pods-Bottles/Pods-Bottles.debug.xcconfig"; sourceTree = "<group>"; };
 		60382CE3831202C2830420D4 /* Pods-BottlesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BottlesTests.debug.xcconfig"; path = "Target Support Files/Pods-BottlesTests/Pods-BottlesTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -175,6 +179,8 @@
 				9DBAFB2024A063920025C27D /* LaunchScreen.storyboard */,
 				9DBAFB2324A063920025C27D /* Info.plist */,
 				9D1EF6C024A4489F00C980D7 /* GoogleService-Info.plist */,
+				4E508ABF2578070C009F399C /* PostDealViewController.swift */,
+				4E508AC425780732009F399C /* PostDealTableViewController.swift */,
 			);
 			path = Bottles;
 			sourceTree = "<group>";
@@ -452,11 +458,13 @@
 				9DBAFB1624A0638C0025C27D /* AppDelegate.swift in Sources */,
 				9D1EF6CD24A44D5A00C980D7 /* DetailArtViewController.swift in Sources */,
 				9D1EF6CB24A44D4C00C980D7 /* DetailArtTableViewCell.swift in Sources */,
+				4E508AC525780732009F399C /* PostDealTableViewController.swift in Sources */,
 				9DBAFB1A24A0638C0025C27D /* ContentView.swift in Sources */,
 				9D0A44E424A8F9C400E3FB94 /* CategoryCollectionViewCell.swift in Sources */,
 				9D1EF6C924A44B2700C980D7 /* ArtCollectionViewCell.swift in Sources */,
 				9D1EF6C524A44A8500C980D7 /* SavedViewController.swift in Sources */,
 				9D1EF6C724A44ACA00C980D7 /* HistoryViewController.swift in Sources */,
+				4E508AC02578070C009F399C /* PostDealViewController.swift in Sources */,
 				9D0A44E624A91A0C00E3FB94 /* Book.swift in Sources */,
 				9D1EF6C324A44A7C00C980D7 /* ExploreViewController.swift in Sources */,
 				9DC0D8CE252BF41000FC402B /* DiscountCollectionViewCell.swift in Sources */,

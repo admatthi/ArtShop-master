@@ -161,7 +161,7 @@ class ExploreViewController: UIViewController, UICollectionViewDelegate, UIColle
         var functioncounter = 0
         
         
-        db.collection("latest_deals").whereField("brand", isGreaterThan: " ").limit(to: 100)
+        db.collection("latest_deals").whereField("brand", isGreaterThan: " ").limit(to: 1000)
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
@@ -191,7 +191,7 @@ class ExploreViewController: UIViewController, UICollectionViewDelegate, UIColle
                                 
                                 //
                                 //
-                                self.books = self.books.sorted(by: { $0.created?.dateValue().timeAgoSinceDate() ?? "0" < $1.created?.dateValue().timeAgoSinceDate() ?? "1" })
+                                self.books = self.books.sorted(by: { $0.created?.dateValue().timeIntervalSince1970 ?? 0 > $1.created?.dateValue().timeIntervalSince1970 ?? 1 })
                                 
                             }
                         }

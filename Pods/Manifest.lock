@@ -360,6 +360,7 @@ PODS:
   - gRPC-Core/Interface (1.28.2)
   - GTMSessionFetcher/Core (1.4.0)
   - IQKeyboardManagerSwift (6.5.6)
+  - Ji (5.0.0)
   - Kingfisher (5.15.5):
     - Kingfisher/Core (= 5.15.5)
   - Kingfisher/Core (5.15.5)
@@ -375,6 +376,8 @@ PODS:
   - Purchases (3.7.3):
     - PurchasesCoreSwift (= 3.7.3)
   - PurchasesCoreSwift (3.7.3)
+  - ReadabilityKit (0.7.4):
+    - Ji (= 5.0.0)
 
 DEPENDENCIES:
   - AppsFlyerFramework
@@ -389,6 +392,7 @@ DEPENDENCIES:
   - Kingfisher
   - MBProgressHUD
   - Purchases
+  - ReadabilityKit
 
 SPEC REPOS:
   trunk:
@@ -414,6 +418,7 @@ SPEC REPOS:
     - gRPC-Core
     - GTMSessionFetcher
     - IQKeyboardManagerSwift
+    - Ji
     - Kingfisher
     - leveldb-library
     - MBProgressHUD
@@ -422,6 +427,7 @@ SPEC REPOS:
     - Protobuf
     - Purchases
     - PurchasesCoreSwift
+    - ReadabilityKit
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
@@ -446,6 +452,7 @@ SPEC CHECKSUMS:
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
   IQKeyboardManagerSwift: c7df9d2deb356c04522f5c4b7b6e4ce4d8ed94fe
+  Ji: d795fed288fe78658b404c88946d753b17d8d7f4
   Kingfisher: e3ec347a5ab8817b7585ef46923a2d2b9a7d8fbe
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
@@ -454,7 +461,8 @@ SPEC CHECKSUMS:
   Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
   Purchases: ae790bb695c4d4f1c13f952067d2d2c3f0d0ca5e
   PurchasesCoreSwift: 53956256a1ff84de8f0f212ea4b9b46a53a212dc
+  ReadabilityKit: 09e8b2ecb3d06f17f4c856e426c34f9016e86e6f
 
-PODFILE CHECKSUM: 10e40a5b9d868646b728cd1f0931b006e20b53b3
+PODFILE CHECKSUM: edf42658fe680408e56edd3949d9fd525dfbd753
 
 COCOAPODS: 1.9.3
